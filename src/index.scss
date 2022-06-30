@@ -1,0 +1,53 @@
+body {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px 0;
+  background: url("https://preview.redd.it/mrd7stj7vtv71.png?auto=webp&s=ea7d6f0593e9c9e533d72a3d0a15f394a04eff46");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'VT323', monospace;
+}
+
+h1, h2, h3, h4, h5, p {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #043a92;
+}
+
+.content {
+  background: #ffff;
+  border-radius: 20px;
+  padding: 30px;
+  max-height: 700px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+      a{
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    &__links {
+      display: flex;
+      align-items: center;
+
+      a {
+        margin: 0 15px;
+
+        :hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
