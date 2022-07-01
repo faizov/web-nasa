@@ -2,8 +2,6 @@ import React from "react";
 import { Routes } from "./pages/routes";
 import { Link, useLocation } from "react-router-dom";
 
-import { baseUrl } from './pages/routes'
-
 import telegram from "./assets/icons/telegram.svg";
 import github from "./assets/icons/github.svg";
 
@@ -26,7 +24,7 @@ function App() {
       <div className="content">
         <div className="content__header">
           <div className="content__header__logo">
-            <Link to={baseUrl}>
+            <Link to="/">
               <img
                 width={100}
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/2449px-NASA_logo.svg.png"
@@ -40,8 +38,8 @@ function App() {
           </div>
 
           <div className="content__header__links">
-            <Link to={`${baseUrl}/apod`}><h3>APOD</h3></Link>
-            {/* <Link to={`${baseUrl}/mars`}><h3>Mars</h3></Link> */}
+            <Link to="/apod"><h3>APOD</h3></Link>
+            {/* <Link to="/mars"><h3>Mars</h3></Link> */}
             <a
               href="https://t.me/nasabotphoto_bot"
               target="_blank"
