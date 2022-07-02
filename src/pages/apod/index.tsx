@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import backIcon from "../../assets/icons/back-arrow.svg";
 import forwardIcon from "../../assets/icons/next-arrow.svg";
 import diceIcon from "../../assets/icons/dice.png";
+import likeIcon from "../../assets/icons/like.svg";
+import likeRedIcon from "../../assets/icons/likered.svg";
 import cat from "../../assets/icons/giphy.gif";
 
 import "./style.scss";
@@ -15,13 +17,16 @@ type Apod = {
   copyright?: string;
   url: string;
   hdurl?: string;
+  like: boolean;
 };
 
 export const Apod = () => {
   const [apod, setApod] = useState<Apod>();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+
+  let likeApods = JSON.parse(localStorage.getItem("likeApods") as string) || [];
 
   const nowDate = new Date(new Date().setDate(new Date().getDate()))
     .toISOString()
@@ -38,18 +43,41 @@ export const Apod = () => {
     )
       .then((res) => res.json())
       .then((res) => {
-        if (res.error) {
-          setError(res.error.message)
-        }
-        console.log("res :>> ", res);
-        setApod(res);
+        let checkLike = Boolean(
+          likeApods.find((e: Apod) => {
+            return e.date == res.date;
+          })
+        );
+        setApod({ ...res, like: checkLike });
         setLoading(false);
+
+        if (res.error) {
+          setError(res.error.message);
+        }
       });
   };
 
   useEffect(() => {
     fetchApod();
   }, [count]);
+
+  const saveApod = () => {
+    let entry = likeApods.find(function (e: Apod) {
+      return e.date == apod?.date;
+    });
+    if (!entry) {
+      likeApods.push(apod);
+      localStorage.setItem("likeApods", JSON.stringify(likeApods));
+      setApod((prevState: any) => ({ ...prevState, like: true }));
+    } else {
+      const index = likeApods.findIndex((item: Apod) => {
+        return item.date === apod?.date;
+      });
+      likeApods.splice(index, 1);
+      setApod((prevState: any) => ({ ...prevState, like: false }));
+      localStorage.setItem("likeApods", JSON.stringify(likeApods));
+    }
+  };
 
   return (
     <div>
@@ -59,7 +87,18 @@ export const Apod = () => {
           <div className="apod__information">
             <div>
               <div className="apod__information__title">
-                <h1>{apod.title}</h1>
+                <h1>
+                  {apod.title}{" "}
+                  {apod.like ? (
+                    <button onClick={() => saveApod()}>
+                      <img width={32} src={likeRedIcon} />
+                    </button>
+                  ) : (
+                    <button onClick={() => saveApod()}>
+                      <img width={32} className="button-like" src={likeIcon} />
+                    </button>
+                  )}
+                </h1>
                 <h5>{apod.date}</h5>
               </div>
               <div className="apod__information__description">
@@ -86,7 +125,10 @@ export const Apod = () => {
               <>
                 {apod.media_type === "image" && (
                   <a href={apod.hdurl} rel="noreferrer" target="_blank">
-                    <img className="apod__content__img" src={apod.url ?? apod.url} />
+                    <img
+                      className="apod__content__img"
+                      src={apod.url ?? apod.hdurl}
+                    />
                   </a>
                 )}
                 {apod.media_type === "video" && (
@@ -107,7 +149,7 @@ export const Apod = () => {
                 )}
               </>
             ) : (
-              <img width={"100%"} src={cat} />
+              <img width={"0%"} src={cat} />
             )}
           </div>
         </div>

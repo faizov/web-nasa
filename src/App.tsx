@@ -19,6 +19,10 @@ function App() {
     description = "Mars Rover Photos";
   }
 
+  if (pathname === "/likes") {
+    description = "Liked picture";
+  }
+
   return (
     <>
       <div className="content">
@@ -39,6 +43,7 @@ function App() {
 
           <div className="content__header__links">
             <Link to="/apod"><h3>APOD</h3></Link>
+            <Link to="/likes"><h3>Likes</h3></Link>
             {/* <Link to="/mars"><h3>Mars</h3></Link> */}
             <a
               href="https://t.me/nasabotphoto_bot"
