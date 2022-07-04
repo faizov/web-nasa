@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 import backIcon from "../../assets/icons/back-arrow.svg";
 import forwardIcon from "../../assets/icons/next-arrow.svg";
 import diceIcon from "../../assets/icons/dice.png";
 import likeIcon from "../../assets/icons/like.svg";
 import likeRedIcon from "../../assets/icons/likered.svg";
+import fullIcon from "../../assets/icons/full.png";
 import cat from "../../assets/icons/giphy.gif";
 
 import "./style.scss";
@@ -26,14 +28,21 @@ export const Apod = () => {
   const [count, setCount] = useState(0);
   const [error, setError] = useState("");
 
+  const [searchParams] = useSearchParams();
+  const dateParams: string | null = searchParams.get("date");
+  const navigate = useNavigate();
+
   let likeApods = JSON.parse(localStorage.getItem("likeApods") as string) || [];
 
   const nowDate = new Date(new Date().setDate(new Date().getDate()))
     .toISOString()
     .split("T")[0];
-  let date = new Date(new Date().setDate(new Date().getDate() - count))
-    .toISOString()
-    .split("T")[0];
+
+  let date =
+    dateParams ||
+    new Date(new Date().setDate(new Date().getDate() - count))
+      .toISOString()
+      .split("T")[0];
 
   const fetchApod = () => {
     setLoading(true);
@@ -109,19 +118,32 @@ export const Apod = () => {
                 <p>{apod.explanation}</p>
               </div>
             </div>
-            <div className="apod__information__buttons-actions">
-              <button disabled={loading} onClick={() => setCount(count + 1)}>
-                <img src={backIcon} />
-              </button>
-              <button onClick={() => setCount(Math.random() * daysFirstApod)}>
-                <img src={diceIcon} />
-              </button>
-              {nowDate !== date && (
-                <button disabled={loading} onClick={() => setCount(count - 1)}>
-                  <img src={forwardIcon} />
+            {!dateParams && (
+              <div className="apod__information__buttons-actions">
+                <button disabled={loading} onClick={() => setCount(count + 1)}>
+                  <img src={backIcon} />
                 </button>
-              )}
-            </div>
+                <button onClick={() => setCount(Math.random() * daysFirstApod)}>
+                  <img src={diceIcon} />
+                </button>
+                {nowDate !== date && (
+                  <button
+                    disabled={loading}
+                    onClick={() => setCount(count - 1)}
+                  >
+                    <img src={forwardIcon} />
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* {dateParams && (
+              <div className="apod__information__buttons-actions">
+                <button onClick={() => navigate(-1)}>
+                  <img src={backIcon} />
+                </button>
+              </div>
+            )} */}
           </div>
 
           <div className="apod__content">
@@ -146,6 +168,13 @@ export const Apod = () => {
                           />
                         </button>
                       )}
+                    </div>
+                    <div className="apod__content__img__btn-full">
+                      <a href={apod.hdurl} rel="noreferrer" target="_blank">
+                        <button>
+                          <img width={32} src={fullIcon} />
+                        </button>
+                      </a>
                     </div>
                   </div>
                 )}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import closeIcon from "../../assets/icons/close.svg";
 
@@ -77,18 +78,20 @@ export const Likes = () => {
                     >
                       <img src={closeIcon} alt="" />
                     </button>
-                    <a href={item.hdurl} target="_blank">
+                    <Link to={`/apod?date=${item.date}`}>
                       <img
                         width={"100%"}
                         src={item.url}
                         alt=""
                         className="likes__item__img"
                       />
-                    </a>
+                    </Link>
                   </>
                 )}
                 <div className="likes__item__info">
-                  <h2>{item.title}</h2>
+                  <Link to={`/apod?date=${item.date}`}>
+                    <h2>{item.title}</h2>
+                  </Link>
                   <p>{item.date}</p>
                 </div>
               </div>

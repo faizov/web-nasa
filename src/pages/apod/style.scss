@@ -57,7 +57,13 @@
     max-height: 550px;
 
     &__img {
+        height: 100%;
+
       &__btn-like {
+        display: none;
+      }
+
+      &__btn-full {
         display: none;
       }
 
@@ -86,6 +92,7 @@
       order: 1;
       margin-bottom: 100px;
       padding: 0 30px;
+      margin-top: 30px;
 
       h1 button {
         display: none;
@@ -133,6 +140,28 @@
           position: absolute;
           bottom: 0;
           right: 0;
+          z-index: 1;
+
+          button {
+            background: #ffffff9c;
+            border: 0;
+            outline: none;
+            padding: 10px;
+            margin: 15px;
+            border-radius: 14px;
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+          }
+        }
+
+        &__btn-full {
+          display: block;
+          position: absolute;
+          bottom: 0;
+          left: 0;
           z-index: 1;
 
           button {
