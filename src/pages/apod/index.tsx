@@ -66,7 +66,7 @@ export const Apod = () => {
       return e.date == apod?.date;
     });
     if (!entry) {
-      likeApods.push(apod);
+      likeApods.unshift(apod);
       localStorage.setItem("likeApods", JSON.stringify(likeApods));
       setApod((prevState: any) => ({ ...prevState, like: true }));
     } else {
@@ -78,6 +78,10 @@ export const Apod = () => {
       localStorage.setItem("likeApods", JSON.stringify(likeApods));
     }
   };
+
+  const dateFirstApod = "1995-06-16T00:00:00.000Z";
+  let currentDate = Date.parse(new Date().toString());
+  let daysFirstApod = (currentDate - Date.parse(dateFirstApod)) / 86400000;
 
   return (
     <div>
@@ -109,7 +113,7 @@ export const Apod = () => {
               <button disabled={loading} onClick={() => setCount(count + 1)}>
                 <img src={backIcon} />
               </button>
-              <button onClick={() => setCount(Math.random() * (9000 - 0) + 0)}>
+              <button onClick={() => setCount(Math.random() * daysFirstApod)}>
                 <img src={diceIcon} />
               </button>
               {nowDate !== date && (
@@ -124,12 +128,26 @@ export const Apod = () => {
             {!loading ? (
               <>
                 {apod.media_type === "image" && (
-                  <a href={apod.hdurl} rel="noreferrer" target="_blank">
-                    <img
-                      className="apod__content__img"
-                      src={apod.url ?? apod.hdurl}
-                    />
-                  </a>
+                  <div className="apod__content__img">
+                    <a href={apod.hdurl} rel="noreferrer" target="_blank">
+                      <img src={apod.url ?? apod.hdurl} />
+                    </a>
+                    <div className="apod__content__img__btn-like">
+                      {apod.like ? (
+                        <button onClick={() => saveApod()}>
+                          <img width={32} src={likeRedIcon} />
+                        </button>
+                      ) : (
+                        <button onClick={() => saveApod()}>
+                          <img
+                            width={32}
+                            className="button-like"
+                            src={likeIcon}
+                          />
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 )}
                 {apod.media_type === "video" && (
                   <iframe

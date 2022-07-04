@@ -6,10 +6,14 @@ export function Routes() {
   return useRoutes([
     {
       path: "/",
+      element: <Apod />,
       children: [
-        { path: "apod", element: <Apod /> },
-        { path: "likes", element: <Likes /> }
+        { path: "apod", element: <Apod /> }
       ]
+    },
+    {
+      path: "likes",
+      element: <Likes />
     }
   ]);
 }

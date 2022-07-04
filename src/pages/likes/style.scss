@@ -19,6 +19,7 @@
       border-radius: 20px;
       height: 200px;
       object-fit: cover;
+      background: black;
     }
 
     &__info {
@@ -43,8 +44,17 @@
       display: none;
 
       img {
-          width: 26px;
+        width: 26px;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .likes {
+    &__item {
+      width: 100%;
+      margin: 5px 30px;
     }
   }
 }
