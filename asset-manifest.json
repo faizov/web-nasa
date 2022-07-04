@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "https://faizov.github.io/web-nasa/static/css/main.0ff75023.css",
-    "main.js": "https://faizov.github.io/web-nasa/static/js/main.01cc2944.js",
+    "main.css": "https://faizov.github.io/web-nasa/static/css/main.8ab52f9b.css",
+    "main.js": "https://faizov.github.io/web-nasa/static/js/main.a8ec5e61.js",
     "static/media/giphy.gif": "https://faizov.github.io/web-nasa/static/media/giphy.9e9b4f2fe60f40740ee0.gif",
     "static/media/likered.svg": "https://faizov.github.io/web-nasa/static/media/likered.f24235fe2733b573e67bf75c7fbcbca2.svg",
     "static/media/like.svg": "https://faizov.github.io/web-nasa/static/media/like.813d920afc32083a57dfbae52ec8eaf4.svg",
@@ -10,11 +10,11 @@
     "static/media/next-arrow.svg": "https://faizov.github.io/web-nasa/static/media/next-arrow.ea28f8ca347ec8c732213b4cc6a44ea9.svg",
     "static/media/telegram.svg": "https://faizov.github.io/web-nasa/static/media/telegram.48a0b850bffca0055fff76ad5c092ac3.svg",
     "static/media/close.svg": "https://faizov.github.io/web-nasa/static/media/close.25f3b3e31410d4510b35e7fa3c0338a7.svg",
-    "main.0ff75023.css.map": "https://faizov.github.io/web-nasa/static/css/main.0ff75023.css.map",
-    "main.01cc2944.js.map": "https://faizov.github.io/web-nasa/static/js/main.01cc2944.js.map"
+    "main.8ab52f9b.css.map": "https://faizov.github.io/web-nasa/static/css/main.8ab52f9b.css.map",
+    "main.a8ec5e61.js.map": "https://faizov.github.io/web-nasa/static/js/main.a8ec5e61.js.map"
   },
   "entrypoints": [
-    "static/css/main.0ff75023.css",
-    "static/js/main.01cc2944.js"
+    "static/css/main.8ab52f9b.css",
+    "static/js/main.a8ec5e61.js"
   ]
 }
