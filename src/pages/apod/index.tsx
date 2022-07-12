@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+
+import { TApod } from '../../@types'
 
 import backIcon from "../../assets/icons/back-arrow.svg";
 import forwardIcon from "../../assets/icons/next-arrow.svg";
@@ -7,30 +9,17 @@ import diceIcon from "../../assets/icons/dice.png";
 import likeIcon from "../../assets/icons/like.svg";
 import likeRedIcon from "../../assets/icons/likered.svg";
 import fullIcon from "../../assets/icons/full.png";
-import cat from "../../assets/icons/giphy.gif";
 
 import "./style.scss";
 
-type Apod = {
-  media_type: string;
-  title: string;
-  explanation: string;
-  date: string;
-  copyright?: string;
-  url: string;
-  hdurl?: string;
-  like: boolean;
-};
-
 export const Apod = () => {
-  const [apod, setApod] = useState<Apod>();
+  const [apod, setApod] = useState<TApod>();
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
   const [error, setError] = useState("");
 
   const [searchParams] = useSearchParams();
   const dateParams: string | null = searchParams.get("date");
-  const navigate = useNavigate();
 
   let likeApods = JSON.parse(localStorage.getItem("likeApods") as string) || [];
 
@@ -53,8 +42,8 @@ export const Apod = () => {
       .then((res) => res.json())
       .then((res) => {
         let checkLike = Boolean(
-          likeApods.find((e: Apod) => {
-            return e.date == res.date;
+          likeApods.find((e: TApod) => {
+            return e.date === res.date;
           })
         );
         setApod({ ...res, like: checkLike });
@@ -68,18 +57,18 @@ export const Apod = () => {
 
   useEffect(() => {
     fetchApod();
-  }, [count]);
+  }, [count, dateParams]);
 
   const saveApod = () => {
-    let entry = likeApods.find(function (e: Apod) {
-      return e.date == apod?.date;
+    let entry = likeApods.find(function (e: TApod) {
+      return e.date === apod?.date;
     });
     if (!entry) {
       likeApods.unshift(apod);
       localStorage.setItem("likeApods", JSON.stringify(likeApods));
       setApod((prevState: any) => ({ ...prevState, like: true }));
     } else {
-      const index = likeApods.findIndex((item: Apod) => {
+      const index = likeApods.findIndex((item: TApod) => {
         return item.date === apod?.date;
       });
       likeApods.splice(index, 1);
@@ -136,18 +125,10 @@ export const Apod = () => {
                 )}
               </div>
             )}
-
-            {/* {dateParams && (
-              <div className="apod__information__buttons-actions">
-                <button onClick={() => navigate(-1)}>
-                  <img src={backIcon} />
-                </button>
-              </div>
-            )} */}
           </div>
 
           <div className="apod__content">
-            {!loading ? (
+            {!loading && (
               <>
                 {apod.media_type === "image" && (
                   <div className="apod__content__img">
@@ -195,8 +176,6 @@ export const Apod = () => {
                   </p>
                 )}
               </>
-            ) : (
-              <img width={"0%"} src={cat} />
             )}
           </div>
         </div>

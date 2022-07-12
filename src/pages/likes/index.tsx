@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import { TApod } from '../../@types'
+
 import closeIcon from "../../assets/icons/close.svg";
 
 import "./style.scss";
 
-type Apod = {
-  media_type: string;
-  title: string;
-  explanation: string;
-  date: string;
-  copyright?: string;
-  url: string;
-  hdurl?: string;
-};
-
 export const Likes = () => {
-  const [photos, setPhotos] = useState<Apod[]>();
+  const [photos, setPhotos] = useState<TApod[]>();
   let likeApods = JSON.parse(localStorage.getItem("likeApods") as string) || [];
 
   const fetchApod = () => {
@@ -33,7 +25,7 @@ export const Likes = () => {
   };
 
   const deleteItem = (date: string) => {
-    const index = likeApods.findIndex((item: Apod) => {
+    const index = likeApods.findIndex((item: TApod) => {
       return item.date === date;
     });
     likeApods.splice(index, 1);
@@ -48,7 +40,7 @@ export const Likes = () => {
       </button>
       <div className="likes">
         {photos &&
-          photos.map((item: Apod) => {
+          photos.map((item: TApod) => {
             return (
               <div className="likes__item" key={item.date}>
                 {item.media_type === "video" && (
@@ -84,6 +76,7 @@ export const Likes = () => {
                         src={item.url}
                         alt=""
                         className="likes__item__img"
+                        loading="lazy"
                       />
                     </Link>
                   </>
