@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { TApod } from '../../@types'
+import { TApod } from "../../@types";
 
 import backIcon from "../../assets/icons/back-arrow.svg";
 import forwardIcon from "../../assets/icons/next-arrow.svg";
@@ -18,7 +18,7 @@ export const Apod = () => {
   const [count, setCount] = useState(0);
   const [error, setError] = useState("");
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchparams] = useSearchParams();
   const dateParams: string | null = searchParams.get("date");
 
   let likeApods = JSON.parse(localStorage.getItem("likeApods") as string) || [];
@@ -78,8 +78,8 @@ export const Apod = () => {
   };
 
   const dateFirstApod = "1995-06-16T00:00:00.000Z";
-  let currentDate = Date.parse(new Date().toString());
-  let daysFirstApod = (currentDate - Date.parse(dateFirstApod)) / 86400000;
+  const currentDate = Date.parse(new Date().toString());
+  const daysFirstApod = (currentDate - Date.parse(dateFirstApod)) / 86400000;
 
   return (
     <div>
@@ -101,7 +101,17 @@ export const Apod = () => {
                     </button>
                   )}
                 </h1>
-                <h5>{apod.date}</h5>
+                <input
+                  type="date"
+                  name={apod.date}
+                  id={apod.date}
+                  value={apod.date}
+                  max={nowDate}
+                  min={new Date(dateFirstApod).toISOString().split("T")[0]}
+                  onChange={(e) => {
+                    setSearchparams("date=" + e.target.value);
+                  }}
+                />
               </div>
               <div className="apod__information__description">
                 <p>{apod.explanation}</p>
