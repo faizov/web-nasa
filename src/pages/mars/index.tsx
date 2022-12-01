@@ -1,74 +1,74 @@
 import React, { useEffect, useState } from "react";
 
+import "./style.scss";
+
 export const Mars = () => {
   const [mars, setMars] = useState([]);
+  const [sol, setSol] = useState(0);
+  const [selectRover, setSelectRover] = useState("Curiosity");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   const fetchMars = () => {
     fetch(
-      `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${date}&api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.nasa.gov/mars-photos/api/v1/rovers/${selectRover}/photos?earth_date=${date}&api_key=${process.env.REACT_APP_API_KEY}`
     )
       .then((res) => res.json())
       .then((res) => {
         setMars(res.photos);
+        setSol(res.photos[0].sol);
       });
   };
 
   useEffect(() => {
     fetchMars();
-  }, [date]);
-  console.log("mars", mars);
+  }, [date, selectRover]);
+
   return (
-    <div style={{ marginTop: 30 }}>
-      <iframe
-        src="https://mars.nasa.gov/layout/embed/image/mslweather/"
-        width="100%"
-        height="700"
-        scrolling="no"
-        frameBorder="0"
-      ></iframe>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <input
-          type="date"
-          name=""
-          id=""
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+    <div className="mars">
+      <div className="mars__weather">
+        <iframe
+          src="https://mars.nasa.gov/layout/embed/image/mslweather/"
+          scrolling="no"
+          frameBorder="0"
+        ></iframe>
+      </div>
+      <div className="mars__controll">
+        <div>
+          <h1>Mars Photos</h1>
+          <select
+            onChange={(e) => setSelectRover(e.target.value)}
+            className="mars__controll__select"
+          >
+            <option value="curiosity">Curiosity</option>
+            <option value="opportunity">Opportunity</option>
+            <option value="spirit">Spirit</option>
+          </select>
+        </div>
+        <div className="mars__controll__date">
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          {mars.length > 0 && <p>Sol: {sol}</p>}
+        </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="mars__photos">
         {mars.length > 0 ? (
           mars.map((item: any) => {
             return (
-              <div
-                key={item.id}
-                style={{ width: 300, height: 300, padding: "30px 0" }}
-              >
+              <div key={item.id} className="mars__photos__item">
                 <a href={item.img_src} target="_blank">
-                  <img
-                    src={item.img_src}
-                    alt={item.img_src}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: 30,
-                    }}
-                  />
+                  <img loading="lazy" src={item.img_src} alt={item.img_src} />
                 </a>
               </div>
             );
           })
         ) : (
-          <div style={{ margin: "50px auto" }}>
+          <div className="mars__photos__null">
             <p>No mars :(</p>
+            <p>Choose another date or another Rover 🚀</p>
           </div>
         )}
       </div>

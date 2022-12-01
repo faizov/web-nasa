@@ -4,12 +4,20 @@ body {
   margin-right: auto;
   padding: 50px 0;
   background: url("https://preview.redd.it/mrd7stj7vtv71.png?auto=webp&s=ea7d6f0593e9c9e533d72a3d0a15f394a04eff46");
-  background-repeat: no-repeat;
-  background-size: cover;
-  font-family: 'VT323', monospace;
 }
 
-h1, h2, h3, h4, h5, p {
+body,
+select,
+input {
+  font-family: "VT323", monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   padding: 0;
   margin: 0;
 }
@@ -30,7 +38,7 @@ a {
     justify-content: space-between;
 
     &__logo {
-      a{
+      a {
         display: flex;
         align-items: center;
       }
@@ -63,6 +71,7 @@ a {
 
       &__header {
         padding: 20px 30px;
+
         &__logo {
           img {
             display: none;

@@ -102,6 +102,7 @@ export const Apod = () => {
                   )}
                 </h1>
                 <input
+                  className="apod__information__title__date"
                   type="date"
                   name={apod.date}
                   id={apod.date}
