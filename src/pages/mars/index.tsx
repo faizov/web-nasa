@@ -2,11 +2,31 @@ import React, { useEffect, useState } from "react";
 
 import "./style.scss";
 
+type TPhotoMars = {
+  id: number;
+  img_src: string;
+};
+
+type TNews = {
+  url: string;
+  title: string;
+  main_image: string;
+  date: string;
+};
+
+function getWindowSize() {
+  const { innerWidth } = window;
+  return { innerWidth };
+}
+
 export const Mars = () => {
   const [mars, setMars] = useState([]);
   const [sol, setSol] = useState(0);
   const [selectRover, setSelectRover] = useState("Curiosity");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+
+  const [news, setNews] = useState([]);
+  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   const fetchMars = () => {
     fetch(
@@ -19,12 +39,61 @@ export const Mars = () => {
       });
   };
 
+  const fetchNewsMars = () => {
+    fetch(
+      `https://mars.nasa.gov/api/v1/news_items/?page=0&per_page=${
+        windowSize.innerWidth > 800 ? "5" : "1"
+      }&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest`
+    )
+      .then((res) => res.json())
+      .then((res) => setNews(res.items));
+  };
+
   useEffect(() => {
     fetchMars();
   }, [date, selectRover]);
 
+  useEffect(() => {
+    fetchNewsMars();
+  }, []);
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
   return (
     <div className="mars">
+      <div className="mars__news">
+        {news &&
+          news.map((item: TNews) => {
+            return (
+              <div className="mars__news__item">
+                <a
+                  href={`https://mars.nasa.gov${item.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="mars__news__item__info">
+                    <h2>{item.title}</h2>
+                    <p>{item.date}</p>
+                  </div>
+                  <img
+                    src={`https://mars.nasa.gov/${item.main_image}`}
+                    alt=""
+                  />
+                </a>
+              </div>
+            );
+          })}
+      </div>
       <div className="mars__weather">
         <iframe
           src="https://mars.nasa.gov/layout/embed/image/mslweather/"
@@ -32,6 +101,7 @@ export const Mars = () => {
           frameBorder="0"
         ></iframe>
       </div>
+
       <div className="mars__controll">
         <div>
           <h1>Mars Photos</h1>
@@ -56,7 +126,7 @@ export const Mars = () => {
 
       <div className="mars__photos">
         {mars.length > 0 ? (
-          mars.map((item: any) => {
+          mars.map((item: TPhotoMars) => {
             return (
               <div key={item.id} className="mars__photos__item">
                 <a href={item.img_src} target="_blank">
