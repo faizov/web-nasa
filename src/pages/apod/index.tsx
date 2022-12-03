@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import { TApod } from "../../@types";
 
@@ -83,6 +84,10 @@ export const Apod = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Web Nasa</title>
+        <meta property="og:image" content={`${apod && (apod.url || apod.hdurl)}`} />
+      </Helmet>
       {error && <h1 color="red">{error}</h1>}
       {apod && (
         <div className="apod">

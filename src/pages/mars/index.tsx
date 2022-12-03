@@ -127,13 +127,15 @@ export const Mars = () => {
       <div className="mars__photos">
         {mars.length > 0 ? (
           mars.map((item: TPhotoMars) => {
-            return (
-              <div key={item.id} className="mars__photos__item">
-                <a href={item.img_src} target="_blank">
-                  <img loading="lazy" src={item.img_src} alt={item.img_src} />
-                </a>
-              </div>
-            );
+            if (item.img_src) {
+              return (
+                <div key={item.id} className="mars__photos__item">
+                  <a href={item.img_src} target="_blank">
+                    <img loading="lazy" src={item.img_src} alt={item.img_src} />
+                  </a>
+                </div>
+              );
+            }
           })
         ) : (
           <div className="mars__photos__null">

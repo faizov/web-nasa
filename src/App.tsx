@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes } from "./pages/routes";
 import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import telegram from "./assets/icons/telegram.svg";
 import github from "./assets/icons/github.svg";
@@ -25,6 +26,9 @@ function App() {
 
   return (
     <>
+      <Helmet>
+        <title>Web Nasa</title>
+      </Helmet>
       <div className="content">
         <div className="content__header">
           <div className="content__header__logo">
@@ -42,9 +46,15 @@ function App() {
           </div>
 
           <div className="content__header__links">
-            <Link to="/apod"><h3>APOD</h3></Link>
-            <Link to="/likes"><h3>Likes</h3></Link>
-            <Link to="/mars"><h3>Mars</h3></Link>
+            <Link to="/apod">
+              <h3>APOD</h3>
+            </Link>
+            <Link to="/likes">
+              <h3>Likes</h3>
+            </Link>
+            <Link to="/mars">
+              <h3>Mars</h3>
+            </Link>
             <a
               href="https://t.me/nasabotphoto_bot"
               target="_blank"
